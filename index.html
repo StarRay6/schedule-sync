@@ -10,6 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<script>try{var t=localStorage.getItem('sched.theme.v1');if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,8 +30,12 @@
     </div>
     <div class="tb-right">
       <div class="status" id="status" title="同步状态"><span class="dot"></span><span class="status-text">连接中…</span></div>
-      <button class="icon-btn" id="btnMenu" aria-label="设置">
-        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.6v2.2M12 18.2v2.2M20.4 12h-2.2M5.8 12H3.6M18 6l-1.55 1.55M7.55 16.45L6 18M18 18l-1.55-1.55M7.55 7.55L6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <button class="icon-btn" id="btnTheme" aria-label="切换白天/夜间" title="切换白天/夜间">
+        <svg class="i-sun" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.6v2.4M12 19v2.4M21.4 12h-2.4M5 12H2.6M18.3 5.7l-1.7 1.7M7.4 16.6l-1.7 1.7M18.3 18.3l-1.7-1.7M7.4 7.4L5.7 5.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="20" height="20"><path d="M20.6 14.3A8.6 8.6 0 0 1 9.7 3.4 8.6 8.6 0 1 0 20.6 14.3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="icon-btn" id="btnMenu" aria-label="设置" title="设置">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 7h10M18 7h2M4 12h2M10 12h10M4 17h10M18 17h2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="7" r="2.1" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="12" r="2.1" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="17" r="2.1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
       </button>
     </div>
   </header>

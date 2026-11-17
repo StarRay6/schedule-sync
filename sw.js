@@ -4,7 +4,7 @@
    - 图标 / 第三方库：缓存优先
    - /api/ 一律不缓存
 */
-const CACHE = 'schedule-sync-v2';
+const CACHE = 'schedule-sync-v3';
 const PRECACHE = [
   './',
   './index.html',

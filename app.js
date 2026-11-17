@@ -4,11 +4,11 @@
 
   /* ==================== 常量 ==================== */
   const CATS = [
-    { key: 'work',  label: '工作', color: '#0f766e', soft: '#e7f4f1' },
-    { key: 'study', label: '学习', color: '#2563eb', soft: '#e9effd' },
-    { key: 'life',  label: '生活', color: '#d97706', soft: '#fdf2e0' },
-    { key: 'sport', label: '运动', color: '#16a34a', soft: '#e8f6ec' },
-    { key: 'other', label: '其他', color: '#be123c', soft: '#fdedf0' },
+    { key: 'work',  label: '工作', color: '#0f766e', line: '#0d9488', tint: 'rgba(13,148,136,.13)', soft: '#e7f4f1' },
+    { key: 'study', label: '学习', color: '#2563eb', line: '#3b82f6', tint: 'rgba(59,130,246,.12)', soft: '#e9effd' },
+    { key: 'life',  label: '生活', color: '#d97706', line: '#e08e2a', tint: 'rgba(224,142,42,.14)', soft: '#fdf2e0' },
+    { key: 'sport', label: '运动', color: '#16a34a', line: '#2eb85c', tint: 'rgba(46,184,92,.13)', soft: '#e8f6ec' },
+    { key: 'other', label: '其他', color: '#be123c', line: '#e11d48', tint: 'rgba(225,29,72,.12)', soft: '#fdedf0' },
   ];
   const CAT_MAP = Object.fromEntries(CATS.map(c => [c.key, c]));
   const WEEK_NAMES = ['一', '二', '三', '四', '五', '六', '日'];
@@ -313,7 +313,7 @@
       const chips = evs.slice(0, 3).map(ev => {
         const c = catOf(ev.color);
         const time = ev.allDay ? '全天' : (ev.start || '');
-        return `<div class="chip${ev.done ? ' done' : ''}" data-open="${ev.id}" style="background:${c.soft};border-left-color:${c.color}"><span class="t">${esc(time)}</span>${esc(ev.title)}</div>`;
+        return `<div class="chip${ev.done ? ' done' : ''}" data-open="${ev.id}" style="--c-line:${c.line};--c-soft:${c.tint}"><span class="t">${esc(time)}</span>${esc(ev.title)}</div>`;
       }).join('');
       const more = evs.length > 3 ? `<div class="more">还有 ${evs.length - 3} 项</div>` : '';
       cellsHtml += `<div class="day-cell${out ? ' out' : ''}${isToday ? ' today' : ''}${isSel ? ' selected' : ''}" data-date="${ds}">
@@ -383,7 +383,7 @@
         const hgt = Math.max(20, (b.en - b.s) / 60 * HOUR_PX - 2);
         if (top + hgt < 0) return;
         const w = 100 / b.cols;
-        inner += `<div class="ev-block${b.ev.done ? ' done' : ''}" data-open="${b.ev.id}" style="top:${top}px;height:${Math.min(hgt, heights - top)}px;left:calc(${b.col * w}% + 2px);width:calc(${w}% - 4px);background:${c.soft};border-left:3px solid ${c.color};color:#21343b">
+        inner += `<div class="ev-block${b.ev.done ? ' done' : ''}" data-open="${b.ev.id}" style="top:${top}px;height:${Math.min(hgt, heights - top)}px;left:calc(${b.col * w}% + 2px);width:calc(${w}% - 4px);--c-line:${c.line};--c-soft:${c.tint}">
           <div class="ev-title">${esc(b.ev.title)}</div>
           <div class="ev-time">${esc(b.ev.start)}–${esc(b.ev.end || '')}</div>
         </div>`;
@@ -391,11 +391,11 @@
       const allDay = eventsOn(ds).filter(e => e.allDay);
       colsHtml += `<div class="day-col${isT ? ' today' : ''}" data-day="${ds}" style="height:${heights}px">${inner}${allDay.map(e => {
         const c = catOf(e.color);
-        return `<div class="chip" data-open="${e.id}" style="position:absolute;top:4px;left:2px;right:2px;z-index:3;background:${c.soft};border-left-color:${c.color}">全天 ${esc(e.title)}</div>`;
+        return `<div class="chip" data-open="${e.id}" style="position:absolute;top:4px;left:2px;right:2px;z-index:3;--c-line:${c.line};--c-soft:${c.tint}">全天 ${esc(e.title)}</div>`;
       }).join('')}</div>`;
     });
 
-    const bodyH = Math.min(heights + 10, Math.max(320, window.innerHeight - 190));
+    const bodyH = Math.min(heights + 10, Math.max(320, window.innerHeight - 230));
     main.innerHTML = `<div class="week-wrap" style="max-height:${bodyH}px">
       <div class="week-head-row">${headHtml}</div>
       <div class="week-body">
@@ -410,7 +410,7 @@
     const ds = ymd(cursor);
     const evs = eventsOn(ds);
     const dayTodos = todos().filter(t => t.due === ds);
-    const nowTag = sameDay(cursor, today()) ? `<span class="badge" style="background:#e7f4f1;color:#0b5d56">今天</span>` : '';
+    const nowTag = sameDay(cursor, today()) ? `<span class="badge" style="--c-line:var(--accent-deep);--c-soft:var(--accent-soft)">今天</span>` : '';
 
     let rows = evs.map(e => {
       const c = catOf(e.color);
@@ -421,7 +421,7 @@
         <div class="body">
           <div class="t${e.done ? ' done' : ''}">${esc(e.title)}</div>
           ${e.note ? `<div class="n">${esc(e.note)}</div>` : ''}
-          <div class="tags"><span class="badge" style="background:${c.soft};color:${c.color}">${esc(c.label)}</span>${e.remind !== '' && e.remind != null ? `<span class="badge">提前 ${e.remind === 0 ? '准时' : e.remind + ' 分钟'}提醒</span>` : ''}${e.done ? '<span class="badge">已完成</span>' : ''}</div>
+          <div class="tags"><span class="badge" style="--c-line:${c.line};--c-soft:${c.tint}">${esc(c.label)}</span>${e.remind !== '' && e.remind != null ? `<span class="badge">提前 ${e.remind === 0 ? '准时' : e.remind + ' 分钟'}提醒</span>` : ''}${e.done ? '<span class="badge">已完成</span>' : ''}</div>
         </div>
       </div>`;
     }).join('');
@@ -728,6 +728,31 @@
     else nb.textContent = '开启浏览器通知';
   }
 
+  /* ==================== 主题 ==================== */
+  const THEME_KEY = 'sched.theme.v1';
+
+  function applyTheme(mode) {
+    document.documentElement.setAttribute('data-theme', mode);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', mode === 'dark' ? '#11171a' : '#0f766e');
+  }
+
+  function initTheme() {
+    let mode = null;
+    try { mode = localStorage.getItem(THEME_KEY); } catch (e) {}
+    if (mode !== 'dark' && mode !== 'light') {
+      mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    applyTheme(mode);
+  }
+
+  function toggleTheme() {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+    applyTheme(next);
+    toast(next === 'dark' ? '夜间模式' : '白天模式', next === 'dark' ? '配色已调暗，弱光环境下更护眼' : '已切回明亮配色', { icon: next === 'dark' ? '🌙' : '☀️', ms: 1600 });
+  }
+
   /* ==================== 事件绑定 ==================== */
   function buildColors() {
     $('#colorRow').innerHTML = CATS.map((c, i) => `<button type="button" class="color-dot${i === 0 ? ' on' : ''}" data-color="${c.key}" style="background:${c.color};color:${c.color}" aria-label="${c.label}" title="${c.label}"></button>`).join('');
@@ -747,6 +772,7 @@
       const b = e.target.closest('button[data-view]');
       if (b) switchView(b.dataset.view);
     };
+    $('#btnTheme').onclick = toggleTheme;
     $('#btnMenu').onclick = openSettings;
     $('#btnAdd').onclick = () => {
       if (view === 'todo') openEditor('todo');
@@ -850,6 +876,7 @@
 
   /* ==================== 启动 ==================== */
   function boot() {
+    initTheme();
     loadLocal();
     buildColors();
     $$('#tabs button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
